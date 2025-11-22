@@ -1,6 +1,23 @@
 import { EntitySchema } from "typeorm";
+import { RideType } from "./Ride";
 
-export const User = new EntitySchema({
+export interface UserType {
+  id: number;
+  fullName: string;
+  email: string;
+  phone: string;
+  password: string;
+
+  otp: string | null;           // ✅ FIXED
+  otp_expiry: Date | null;      // ✅ FIXED
+
+  isVerified: boolean;
+  createdAt: Date;
+
+  rides: RideType[];             // One-to-Many relation
+}
+
+export const User = new EntitySchema<UserType>({
   name: "User",
   tableName: "users",
 
@@ -13,7 +30,7 @@ export const User = new EntitySchema({
 
     fullName: {
       type: String,
-      nullable: false,   // consistent with signup controller
+      nullable: false,
     },
 
     email: {
@@ -34,12 +51,12 @@ export const User = new EntitySchema({
 
     otp: {
       type: String,
-      nullable: true,
+      nullable: true,        // DB can store null
     },
 
     otp_expiry: {
       type: "timestamp",
-      nullable: true,
+      nullable: true,        // DB can store null
     },
 
     isVerified: {
@@ -50,6 +67,14 @@ export const User = new EntitySchema({
     createdAt: {
       type: "timestamp",
       default: () => "CURRENT_TIMESTAMP",
+    },
+  },
+
+  relations: {
+    rides: {
+      type: "one-to-many",
+      target: "Ride",
+      inverseSide: "user",
     },
   },
 });

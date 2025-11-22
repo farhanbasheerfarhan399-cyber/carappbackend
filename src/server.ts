@@ -18,21 +18,16 @@ const app = express();
 // ----------------------
 // MIDDLEWARES
 // ----------------------
-
-// Enable CORS for frontend
 app.use(
   cors({
-    origin: "http://localhost:3000", // Frontend URL
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    credentials: true, // REQUIRED to send cookies
+    credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// Parse JSON bodies
 app.use(express.json());
-
-// Parse cookies
 app.use(cookieParser());
 
 // ----------------------
@@ -43,13 +38,14 @@ import verifyOtpRoute from "./routes/verifyOtp";
 import resendOtpRoute from "./routes/resendOtp";
 import loginRoute from "./routes/login";
 import userRoutes from "./routes/user";
+import rideRoutes from "./routes/ride";   // ✅ ADD THIS
 
-// Mount routes
 app.use("/api", authRoutes);
 app.use("/api", verifyOtpRoute);
 app.use("/api", resendOtpRoute);
 app.use("/api", loginRoute);
 app.use("/api/user", userRoutes);
+app.use("/api/ride", rideRoutes);         // ✅ ADD THIS
 
 // ----------------------
 // START SERVER

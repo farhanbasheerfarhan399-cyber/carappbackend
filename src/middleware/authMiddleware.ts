@@ -26,7 +26,7 @@ export const authMiddleware = (
   next: NextFunction
 ) => {
   // Correct cookie name: must match loginController
-  const token = req.cookies.authToken;
+  const token = req.cookies.auth_token;
 
   if (!token) {
     return res.status(401).json({

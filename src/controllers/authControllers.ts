@@ -61,7 +61,7 @@ export const loginUser = async (req: Request, res: Response) => {
     );
 
     // 6. Set the cookie
-    res.cookie("authToken", token, {
+    res.cookie("auth_token", token, {
       httpOnly: true,
       secure: false, // set to true when using HTTPS
       sameSite: "lax",
@@ -113,7 +113,7 @@ export const getProfile = (req: AuthenticatedRequest, res: Response) => {
 // LOGOUT CONTROLLER
 // -------------------------------------------------------
 export const logoutUser = (req: Request, res: Response) => {
-  res.clearCookie("authToken", {
+  res.clearCookie("auth_token", {
     httpOnly: true,
     sameSite: "lax",
     secure: false, // change to true in production

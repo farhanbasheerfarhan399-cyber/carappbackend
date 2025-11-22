@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { User } from "../entities/User"; // corrected relative path
 import dotenv from "dotenv";
+import { Ride } from "../entities/Ride";
 
 dotenv.config();
 
@@ -14,5 +15,5 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: true,       // ✅ auto-create tables
   logging: false,
-  entities: [User],        // include your User entity here
+  entities: [User,Ride],        // include your User entity here
 });

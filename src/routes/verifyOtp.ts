@@ -3,7 +3,6 @@ import { AppDataSource } from "../config/db";
 import { User } from "../entities/User";
 
 const router = express.Router();
-
 const userRepo = AppDataSource.getRepository(User);
 
 router.post("/verify-otp", async (req: Request, res: Response) => {
@@ -28,6 +27,7 @@ router.post("/verify-otp", async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: "OTP expired" });
     }
 
+    // Mark verified
     user.isVerified = true;
     user.otp = null;
     user.otp_expiry = null;
@@ -35,12 +35,12 @@ router.post("/verify-otp", async (req: Request, res: Response) => {
     await userRepo.save(user);
 
     return res.json({
-      success: true,                 // ✅ This tells frontend to redirect
+      success: true,
       message: "OTP verified successfully",
     });
 
-  } catch (err) {
-    console.log(err);
+  } catch (err: unknown) {
+    console.error(err);
     return res.status(500).json({ success: false, message: "Server error" });
   }
 });
